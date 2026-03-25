@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Meine Rezepte</title>
+
+<style>
+body{
+font-family:Arial;
+background:#f5f5f5;
+margin:0;
+padding:20px;
+}
+
+h1{
+text-align:center;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+gap:15px;
+margin-top:20px;
+}
+
+.card{
+background:white;
+border-radius:10px;
+padding:10px;
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
+cursor:pointer;
+}
+
+img{
+width:100%;
+border-radius:8px;
+}
+
+button{
+padding:10px;
+margin:5px;
+border:none;
+background:#ff7a18;
+color:white;
+border-radius:6px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>Meine Rezepte</h1>
+
+<div style="text-align:center">
+
+<button onclick="todayRecipe()">🍽 Heute kochen</button>
+<button onclick="randomRecipe()">🎲 Zufallsrezept</button>
+
+</div>
+
+<div id="recipes" class="grid"></div>
+
+<script>
+
+const recipes=[
+
+{
+name:"Brokkoli Hähnchen Penne",
+kcal:410,
+protein:36,
+image:"https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5"
+},
+
+{
+name:"Paprika Hähnchen Pfanne",
+kcal:420,
+protein:35,
+image:"https://images.unsplash.com/photo-1604908176997-4319c2fbc1b2"
+},
+
+{
+name:"Mexikanische Hähnchenpfanne",
+kcal:430,
+protein:37,
+image:"https://images.unsplash.com/photo-1504674900247-0877df9cc836"
+}
+
+];
+
+function showRecipes(){
+
+let html="";
+
+recipes.forEach((r,i)=>{
+
+html+=`
+<div class="card">
+<img src="${r.image}">
+<h3>${r.name}</h3>
+🔥 ${r.kcal} kcal<br>
+💪 ${r.protein} g Protein
+</div>
+`;
+
+});
+
+document.getElementById("recipes").innerHTML=html;
+
+}
+
+function randomRecipe(){
+
+let r=recipes[Math.floor(Math.random()*recipes.length)];
+
+alert("Heute vielleicht: "+r.name);
+
+}
+
+function todayRecipe(){
+
+randomRecipe();
+
+}
+
+showRecipes();
+
+</script>
+
+</body>
+</html>
