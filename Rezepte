@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Meine Rezepte</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f7f7f7;
+margin:0;
+padding:20px;
+}
+
+h1{
+text-align:center;
+}
+
+.top{
+text-align:center;
+margin-bottom:20px;
+}
+
+button{
+padding:10px 15px;
+margin:5px;
+border:none;
+border-radius:6px;
+background:#ff7a18;
+color:white;
+cursor:pointer;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+gap:15px;
+}
+
+.card{
+background:white;
+border-radius:10px;
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
+padding:10px;
+}
+
+.card img{
+width:100%;
+border-radius:8px;
+}
+
+input,textarea{
+width:100%;
+padding:8px;
+margin:5px 0;
+}
+
+#form{
+background:white;
+padding:15px;
+border-radius:10px;
+margin-top:20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>Meine Rezepte</h1>
+
+<div class="top">
+
+<button onclick="todayRecipe()">🍽 Heute kochen</button>
+<button onclick="randomRecipe()">🎲 Zufallsrezept</button>
+<button onclick="toggleForm()">➕ Rezept hinzufügen</button>
+
+</div>
+
+<div id="recipes" class="grid"></div>
+
+<div id="form" style="display:none">
+
+<h3>Neues Rezept</h3>
+
+<input id="name" placeholder="Name">
+
+<input id="kcal" placeholder="Kalorien">
+
+<input id="protein" placeholder="Protein">
+
+<input id="image" placeholder="Bild URL">
+
+<textarea id="ingredients" placeholder="Zutaten"></textarea>
+
+<textarea id="steps" placeholder="Zubereitung"></textarea>
+
+<button onclick="addRecipe()">Speichern</button>
+
+</div>
+
+<script>
+
+let recipes = JSON.parse(localStorage.getItem("recipes")) || [
+
+{
+name:"Brokkoli Hähnchen Penne",
+kcal:410,
+protein:36,
+image:"https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5"
+},
+
+{
+name:"Paprika Hähnchen Pfanne",
+kcal:420,
+protein:35,
+image:"https://images.unsplash.com/photo-1604908176997-4319c2fbc1b2"
+},
+
+{
+name:"Mexikanische Hähnchenpfanne",
+kcal:430,
+protein:37,
+image:"https://images.unsplash.com/photo-1504674900247-0877df9cc836"
+}
+
+];
+
+function save(){
+localStorage.setItem("recipes",JSON.stringify(recipes))
+}
+
+function showRecipes(){
+
+let html=""
+
+recipes.slice(0,10).forEach((r,i)=>{
+
+html+=`
+
+<div class="card">
+
+<img src="${r.image}">
+
+<h3>${r.name}</h3>
+
+🔥 ${r.kcal} kcal<br>
+
+💪 ${r.protein} g Protein
+
+</div>
+
+`
+
+})
+
+document.getElementById("recipes").innerHTML=html
+
+}
+
+function randomRecipe(){
+
+let r = recipes[Math.floor(Math.random()*recipes.length)]
+
+alert("Heute vielleicht: "+r.name)
+
+}
+
+function todayRecipe(){
+
+randomRecipe()
+
+}
+
+function toggleForm(){
+
+let f=document.getElementById("form")
+
+f.style.display = f.style.display=="none" ? "block":"none"
+
+}
+
+function addRecipe(){
+
+let r={
+
+name:document.getElementById("name").value,
+
+kcal:document.getElementById("kcal").value,
+
+protein:document.getElementById("protein").value,
+
+image:document.getElementById("image").value
+
+}
+
+recipes.push(r)
+
+save()
+
+showRecipes()
+
+alert("Rezept gespeichert!")
+
+}
+
+showRecipes()
+
+</script>
+
+</body>
+</html>
